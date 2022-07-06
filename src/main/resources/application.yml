@@ -1,0 +1,15 @@
+server:
+  address: localhost
+  port: 8080
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: rkQl7373!
+    url: jdbc:mysql://localhost:3306/syk-board?serverTimezone=UTC&characterEncoding=UTF-8
+
+    username: root
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    generate-ddl: true
+    show-sql: true
