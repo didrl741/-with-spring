@@ -23,6 +23,6 @@ public class User {
 
     private String userEmail;
 
-    @OneToMany(mappedBy = "user", )
+    @OneToMany(mappedBy = "user")
     private List<Post> posts = new ArrayList<Post>();
 }

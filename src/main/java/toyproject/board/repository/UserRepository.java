@@ -29,7 +29,16 @@ public class UserRepository {
 
     public List<User> findByName(String name) {
         List<User> result = em.createQuery("select u from User u where u.userName = :name", User.class)
+                .setParameter("name", name)
                 .getResultList();
         return result;
     }
+
+    public List<User> findByEmail(String email) {
+        List<User> result = em.createQuery("select u from User u where u.userEmail = :email", User.class)
+                .setParameter("email", email)
+                .getResultList();
+        return result;
+    }
+
 }

@@ -22,10 +22,10 @@ public class UserService {
         return user.getId();
     }
 
-    public void validateDuplicateUser(User user) {
-        List<User> users = userRepository.findByName(user.getUserEmail());
+    private void validateDuplicateUser(User user) {
+        List<User> users = userRepository.findByEmail(user.getUserEmail());
         if (!users.isEmpty()) {
-            throw new IllegalStateException("이미 존재하는 이메일입니다")
+            throw new IllegalStateException("이미 존재하는 이메일입니다");
         }
     }
 
