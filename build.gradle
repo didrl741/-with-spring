@@ -25,6 +25,9 @@ dependencies {
 
 	implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.0")
 
+	// @NotEmpty 쓰기 위해 추가.
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
 	compileOnly 'org.projectlombok:lombok'
 	compileOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly 'mysql:mysql-connector-java'
