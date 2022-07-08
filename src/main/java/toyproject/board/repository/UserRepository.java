@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import toyproject.board.domain.User;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
@@ -18,5 +19,17 @@ public class UserRepository {
 
     public User findOne(Long userId) {
         return em.find(User.class, userId);
+    }
+
+    public List<User> findAll() {
+        List<User> result = em.createQuery("select u from User u", User.class)
+                .getResultList();
+        return result;
+    }
+
+    public List<User> findByName(String name) {
+        List<User> result = em.createQuery("select u from User u where u.userName = :name", User.class)
+                .getResultList();
+        return result;
     }
 }
