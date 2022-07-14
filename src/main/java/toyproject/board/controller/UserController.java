@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import toyproject.board.domain.User;
 import toyproject.board.service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -52,7 +53,7 @@ public class UserController {
     }
 
     @PostMapping("/users/login")
-    public String login(@Valid UserForm userForm, BindingResult result, HttpSession session, Model model) {
+    public String login(@Valid UserForm userForm, BindingResult result, HttpSession session, HttpServletRequest request, Model model) {
 
         if (userForm.getName().length() == 0 || userForm.getPassword().length() == 0) {
             return "users/login";
@@ -71,5 +72,13 @@ public class UserController {
             return "users/login";
         }
 
+    }
+
+
+    @GetMapping("/users/logout")
+    public String logout(HttpSession session) {
+
+        session.invalidate();
+        return "redirect:/";
     }
 }
