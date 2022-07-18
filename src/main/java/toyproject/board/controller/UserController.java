@@ -42,7 +42,12 @@ public class UserController {
         user.setUserPassword(userForm.getPassword());
         user.setUserEmail(userForm.getEmail());
 
+        log.info("처음");
+
         userService.join(user);
+
+        log.info("끝");
+
         return "redirect:/";
     }
 

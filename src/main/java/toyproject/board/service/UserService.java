@@ -42,6 +42,10 @@ public class UserService {
         return userRepository.findOne(userId);
     }
 
+    public List<User> findByName(String userName) {
+        return userRepository.findByName(userName);
+    }
+
     // 로그인 가능 체크
     public Map<String, Object> checkLoginAvailable(UserForm userForm) {
         Map<String, Object> rs = new HashMap<String, Object>();

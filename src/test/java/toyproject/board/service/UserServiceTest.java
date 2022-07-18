@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import toyproject.board.domain.User;
 import toyproject.board.repository.UserRepository;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -48,5 +50,21 @@ class UserServiceTest {
         assertThrows(IllegalStateException.class, () -> {
             userService.join(user2);
         });
+    }
+
+    @Test
+    public void 리스트반환형체크() throws Exception {
+        //given
+        User user = new User();
+        user.setUserName("song");
+        userService.join(user);
+
+        //when
+        userService.join(user);
+        List<User> users = userService.findByName("song");
+        User findUser = users.get(0);
+
+        //then
+
     }
 }

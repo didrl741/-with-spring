@@ -15,6 +15,7 @@ public class PostService {
 
     private final PostRepository postRepository;
 
+    @Transactional
     public Long join(Post post) {
         postRepository.save(post);
         return post.getId();
