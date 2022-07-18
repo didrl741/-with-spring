@@ -7,6 +7,14 @@
     }
 </style>
 <body>
+
+<div th:if="${session.loginedUserName==null}">
+    <script>
+        top.alert("로그인이 필요합니다!");
+        location.href  ="/"
+    </script>
+</div>
+
 <div class="container">
     <div th:replace="fragments/mybodyHeader :: bodyHeader"/>
     <form th:action="@{/items/new}" th:object="${postForm}" method="post">

@@ -35,7 +35,7 @@ public class PostController {
 
     @PostMapping("/items/new")
     public String create(@Valid PostForm postForm, BindingResult result, HttpSession session) {
-        
+
         if (postForm.getTitle().length() == 0 || postForm.getContent().length() == 0) {
             return "post/createPostForm";
         }
