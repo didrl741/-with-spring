@@ -28,4 +28,5 @@ public class Post {
         this.user = user;
         user.getPosts().add(this);
     }
+
 }

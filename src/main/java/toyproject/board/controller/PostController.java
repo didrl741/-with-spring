@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import toyproject.board.domain.Post;
 import toyproject.board.domain.User;
@@ -65,5 +66,11 @@ public class PostController {
         model.addAttribute("posts", posts);
 
         return "post/postList";
+    }
+
+    @PostMapping("/items/{postId}/cancel")
+    public String cancelPost(@PathVariable("postId") Long postId) {
+        postService.cancelPost(postId);
+        return "redirect:/items";
     }
 }

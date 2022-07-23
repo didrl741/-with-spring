@@ -56,4 +56,10 @@ public class PostRepository {
 
         return query.getResultList();
     }
+
+    // 취소 기능
+    public void cancelOne(Long postId) {
+        Post post = findOne(postId);
+        em.remove(post);
+    }
 }
