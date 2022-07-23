@@ -73,4 +73,11 @@ public class PostController {
         postService.cancelPost(postId);
         return "redirect:/items";
     }
+
+    @GetMapping("/items/{postId}")
+    public String showPost(@PathVariable("postId") Long postId, Model model) {
+
+        model.addAttribute("post", postService.findOne(postId));
+        return "post/showPost";
+    }
 }
