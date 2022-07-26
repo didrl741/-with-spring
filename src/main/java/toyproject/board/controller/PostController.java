@@ -52,6 +52,7 @@ public class PostController {
         post.setContent(postForm.getContent());
         post.setPostDate(LocalDateTime.now());
         post.setUser(user);
+        post.setLoveCount(0);
 
         postService.join(post);
 

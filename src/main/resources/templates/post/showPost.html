@@ -10,16 +10,20 @@
             <th>작성자</th>
             <th>제목</th>
             <th>내용</th>
+            <th>좋아요</th>
         </tr>
         </thead>
+
         <tbody>
-        <td th:text="${post.getUser().getUserName()}"></td>
-<!--        <td th:text="${post.user.userName}"></td> 똑같은 결과 -->
-        <td th:text="${post.getTitle()}" ></td>
-        <td>
-            <div th:text="${post.content}"></div>
-        </td>
+        <tr th:object="${post}">
+            <td><span th:text="*{user.userName}"></span></td>
+            <td><span th:text="*{title}"></span></td>
+            <td><span th:text="*{content}"></span></td>
+            <td><span th:text="*{loveCount}"></span></td>
+        </tr>
         </tbody>
+
+
     </table>
 
 </body>

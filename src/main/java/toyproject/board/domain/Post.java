@@ -17,6 +17,8 @@ public class Post {
     private String title;
     private String content;
 
+    private int loveCount = 0;
+
     private LocalDateTime postDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
