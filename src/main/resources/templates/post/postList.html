@@ -23,7 +23,7 @@
                 <td>
                     <a th:href="${'/items/' + post.id}" th:text="${post.title}"></a>
                 </td>
-                <td th:text="${post.getLoveCount()}" ></td>
+                <td th:text="0" ></td>
                 <td th:text="${post.getPostDate()}" ></td>
                 <td>
                     <a th:if="${post.getUser().getUserName() == session.loginedUserName}" href="#"

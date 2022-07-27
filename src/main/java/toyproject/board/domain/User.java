@@ -27,5 +27,5 @@ public class User {
     private List<Post> posts = new ArrayList<Post>();
 
     @OneToMany(mappedBy = "user")
-    private List<Like> likes = new ArrayList<>();
+    private List<UserLikePost> likes = new ArrayList<UserLikePost>();
 }
