@@ -25,12 +25,12 @@ public class UserLikePost {
     //== 연관관계 편의 메서드 ==//
     public void setUser(User user) {
         this.user = user;
-        user.getLikes().add(this);
+        user.getUserLikePosts().add(this);
     }
 
     //== 연관관계 편의 메서드 ==//
     public void setPost(Post post) {
         this.post = post;
-        post.getLikes().add(this);
+        post.getUserLikePosts().add(this);
     }
 }

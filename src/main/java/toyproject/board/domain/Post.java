@@ -26,7 +26,7 @@ public class Post {
     private User user;
 
     @OneToMany(mappedBy = "post")
-    private List<UserLikePost> likes = new ArrayList<UserLikePost>();
+    private List<UserLikePost> userLikePosts = new ArrayList<UserLikePost>();
 
     //== 연관관계 편의 메서드 ==//
     public void setUser(User user) {
