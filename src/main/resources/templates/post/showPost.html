@@ -10,7 +10,6 @@
             <th>작성자</th>
             <th>제목</th>
             <th>내용</th>
-            <th>좋아요</th>
         </tr>
         </thead>
 
@@ -19,7 +18,6 @@
             <td><span th:text="*{user.userName}"></span></td>
             <td><span th:text="*{title}"></span></td>
             <td><span th:text="*{content}"></span></td>
-            <td><span th:text="0"></span></td>
         </tr>
         </tbody>
 
@@ -32,10 +30,22 @@
         <!-- 로그인 유저와 작성자가 동일하지 않다면 -->
         <!-- 좋아요 -->
         <input type="hidden" id="like_check" th:value="${like}">
-        <img th:id="likeImg" src="/img/like_empty.png" alt="" width="30px" height="30px"
-             th:postId="${post.id}"
-             onclick="addLike(this.getAttribute('postId'))"
-        >
+
+        <div th:if="${checkLiked == true }">
+            <img th:id="likeImg" src="/img/like_full.png" alt="" width="30px" height="30px"
+                 th:postId="${post.id}"
+                 onclick="deleteLike(this.getAttribute('postId'))"
+            >
+        </div>
+
+        <div th:if="${checkLiked != true }">
+            <img th:id="likeImg" src="/img/like_empty.png" alt="" width="30px" height="30px"
+                 th:postId="${post.id}"
+                 onclick="addLike(this.getAttribute('postId'))"
+            >
+        </div>
+
+
 
         <span th:text="${post.userLikePosts.size()}"></span>
         <p>로그인 유저와 작성자가 동일하지 않은 경우입니다.</p>
@@ -73,15 +83,36 @@
 
 <script>
 
+
+    const clickLikeUrl = "/img/like_full.png";
+    const emptyLikeUrl = "/img/like_empty.png";
+
     function unLogined() {
 
         alert("로그인 해주세요")
     }
 
+
     function addLike(id) {
+
+        const img1 = document.querySelector("#likeImg");
+        document.getElementById("likeImg").src = "/img/like_full.png";
+
         var form = document.createElement("form");
         form.setAttribute("method", "post");
         form.setAttribute("action", "/items/" + id + "/like");
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    function deleteLike(id) {
+
+        const img1 = document.querySelector("#likeImg");
+        document.getElementById("likeImg").src = "/img/like_empty.png";
+
+        var form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "/items/" + id + "/delete_like");
         document.body.appendChild(form);
         form.submit();
     }

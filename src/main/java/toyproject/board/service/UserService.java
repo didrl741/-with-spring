@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import toyproject.board.controller.UserForm;
 import toyproject.board.domain.User;
+import toyproject.board.domain.UserLikePost;
 import toyproject.board.repository.UserRepository;
 
 import java.util.HashMap;
@@ -71,5 +72,32 @@ public class UserService {
         }
 
         return rs;
+    }
+
+    public boolean checkLiked(Long userId, Long postId) {
+        User user = userRepository.findOne(userId);
+        List<UserLikePost> userLikePosts = user.getUserLikePosts();
+
+        for (UserLikePost like : userLikePosts) {
+            Long findId = like.getPost().getId();
+            if (findId.equals(postId)) {
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+    public UserLikePost findLiked(Long userId, Long postId) {
+        User user = userRepository.findOne(userId);
+        List<UserLikePost> userLikePosts = user.getUserLikePosts();
+
+        for (UserLikePost like : userLikePosts) {
+            Long findId = like.getPost().getId();
+            if (findId.equals(postId)) {
+                return like;
+            }
+        }
+        return null;
     }
 }

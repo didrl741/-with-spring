@@ -68,6 +68,7 @@ public class PostController {
         return "post/postList";
     }
 
+    // 삭제하기 눌렀을 때
     @PostMapping("/items/{postId}/cancel")
     public String cancelPost(@PathVariable("postId") Long postId) {
         postService.cancelPost(postId);
@@ -75,9 +76,20 @@ public class PostController {
     }
 
     @GetMapping("/items/{postId}")
-    public String showPost(@PathVariable("postId") Long postId, Model model) {
+    public String showPost(@PathVariable("postId") Long postId, Model model, HttpSession session) {
 
         model.addAttribute("post", postService.findOne(postId));
+
+        // 로그인아이디 유저가 현재 post에 좋아요 했는지 체크하는 변수 필요
+        List<User> users = userService.findByName((String)session.getAttribute("loginedUserName"));
+        User user = users.get(0);
+
+        Long userId = user.getId();
+
+        boolean checkLiked = userService.checkLiked(userId, postId);
+
+        model.addAttribute("checkLiked", checkLiked);
+
         return "post/showPost";
     }
 }

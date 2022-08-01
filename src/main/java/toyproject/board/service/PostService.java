@@ -29,10 +29,11 @@ public class PostService {
         return postRepository.findOne(postId);
     }
 
-    // 주문 취소
+    // 게시글 삭제
     @Transactional
     public void cancelPost(Long postId) {
         postRepository.cancelOne(postId);
     }
+
 
 }

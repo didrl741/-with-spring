@@ -28,4 +28,9 @@ public class UserLikePostService {
     public UserLikePost findOne(Long likeId) {
         return userLikePostRepository.findOne(likeId);
     }
+
+    @Transactional
+    public void deleteLIke(Long likeId) {
+        userLikePostRepository.deleteOne(likeId);
+    }
 }

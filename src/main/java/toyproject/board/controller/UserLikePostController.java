@@ -5,12 +5,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import toyproject.board.domain.User;
 import toyproject.board.domain.UserLikePost;
 import toyproject.board.service.PostService;
 import toyproject.board.service.UserLikePostService;
 import toyproject.board.service.UserService;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -31,6 +33,22 @@ public class UserLikePostController {
         userLikePost.setUser(userService.findByName(logInedUserName).get(0));
 
         userLikePostService.join(userLikePost);
+
+        return "redirect:/";
+    }
+
+    // 좋아요 취소 눌렀을 시 호출
+    @PostMapping("/items/{postId}/delete_like")
+    public String cancelLikePost(@PathVariable("postId") Long postId, HttpSession session) {
+
+        List<User> users = userService.findByName((String)session.getAttribute("loginedUserName"));
+        User user = users.get(0);
+
+        Long userId = user.getId();
+
+        UserLikePost userLikePost = userService.findLiked(userId, postId);
+
+        userLikePostService.deleteLIke(userLikePost.getId());
 
         return "redirect:/";
     }
