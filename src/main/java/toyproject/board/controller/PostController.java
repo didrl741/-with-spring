@@ -5,9 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import toyproject.board.domain.Post;
 import toyproject.board.domain.User;
 import toyproject.board.service.PostService;
@@ -75,12 +73,13 @@ public class PostController {
         return "redirect:/items";
     }
 
+    // 글 조회 (동기식)
     @GetMapping("/items/{postId}")
     public String showPost(@PathVariable("postId") Long postId, Model model, HttpSession session) {
 
         model.addAttribute("post", postService.findOne(postId));
 
-        // 로그인아이디 유저가 현재 post에 좋아요 했는지 체크하는 변수 필요
+        // 로그인아이디 유저가 현재 post에 좋아요 했는지 체크하는 변수 생성해서 model에 전달
         List<User> users = userService.findByName((String)session.getAttribute("loginedUserName"));
         User user = users.get(0);
 
@@ -92,4 +91,23 @@ public class PostController {
 
         return "post/showPost";
     }
+
+    // 글 조회(비동기식)
+    @GetMapping("/items/ajax/{postId}")
+    public String showPostByAjax(@PathVariable("postId") Long postId, Model model, HttpSession session) {
+
+        model.addAttribute("post", postService.findOne(postId));
+
+        List<User> users = userService.findByName((String)session.getAttribute("loginedUserName"));
+        User user = users.get(0);
+
+        Long userId = user.getId();
+
+        boolean checkLiked = userService.checkLiked(userId, postId);
+
+        model.addAttribute("checkLiked", checkLiked);
+
+        return "post/showPostByAjax";
+    }
+
 }

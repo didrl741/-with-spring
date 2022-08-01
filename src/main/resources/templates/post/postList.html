@@ -11,6 +11,7 @@
                 <th>글 번호</th>
                 <th>작성자</th>
                 <th>제목</th>
+                <th>비동기</th>
                 <th>좋아요</th>
                 <th>작성날짜</th>
                 <th></th>
@@ -22,6 +23,9 @@
                 <td th:text="${post.getUser().getUserName()}"></td>
                 <td>
                     <a th:href="${'/items/' + post.id}" th:text="${post.title}"></a>
+                </td>
+                <td>
+                    <a th:href="${'/items/ajax/' + post.id}" th:text="${post.title}"></a>
                 </td>
                 <td th:text="${post.userLikePosts.size()}" ></td>
                 <td th:text="${post.getPostDate()}" ></td>
