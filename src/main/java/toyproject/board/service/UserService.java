@@ -76,6 +76,11 @@ public class UserService {
 
     public boolean checkLiked(Long userId, Long postId) {
         User user = userRepository.findOne(userId);
+
+        if (user == null) {
+            return false;
+        }
+
         List<UserLikePost> userLikePosts = user.getUserLikePosts();
 
         for (UserLikePost like : userLikePosts) {
@@ -85,7 +90,6 @@ public class UserService {
             }
         }
         return false;
-
     }
 
     public UserLikePost findLiked(Long userId, Long postId) {

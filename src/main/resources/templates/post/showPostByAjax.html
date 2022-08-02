@@ -33,22 +33,22 @@
         <input type="hidden" id="like_check" th:value="${like}">
 
         <div th:if="${checkLiked == true }">
-            <img th:id="likeImg" src="/img/like_full.png" alt="" width="30px" height="30px"
+            <img th:id="likeImg" src="/img/like_full.png" alt="" width="50px" height="50px"
                  th:postId="${post.id}"
-                 onclick="deleteLike(this.getAttribute('postId'))"
+                 onclick="determineLike(this.getAttribute('postId'))"
             >
         </div>
 
         <div th:if="${checkLiked != true }">
-            <img th:id="likeImg" src="/img/like_empty.png" alt="" width="30px" height="30px"
+            <img th:id="likeImg" src="/img/like_empty.png" alt="" width="50px" height="50px"
                  th:postId="${post.id}"
-                 onclick="addLike(this.getAttribute('postId'))"
+                 onclick="determineLike(this.getAttribute('postId'))"
             >
         </div>
 
 
 
-        <span th:text="${post.userLikePosts.size()}"></span>
+        <span id="likeCount" th:text="${post.userLikePosts.size()}"></span>
         <p>로그인 유저와 작성자가 동일하지 않은 경우입니다.</p>
     </div>
     <div th:if="${session.loginedUserName==null}">
@@ -68,13 +68,18 @@
     <!-- 응답 받은 name 및 age 데이터를 추가해서 작성할 간단한 결과 텍스트 -->
     <h2> <span id="name"></span>의 나이는 <span id="age"></span>입니다. </h2>
 
-
+    <h1>AJAX POST TEST</h1>
+    Name: <input type="text" id="inputName2"></input>
+    <button id="ajaxCall2">호출</button>
+    <!-- 응답 받은 name 및 age 데이터를 추가해서 작성할 간단한 결과 텍스트 -->
+    <h2> <span id="name2"></span>의 나이는 <span id="age2"></span>입니다. </h2>
 
 </body>
 
 
 <script type="text/javascript">
 
+    // GET
     var httpRequest;
     /* button이 클릭되었을때 이벤트 */
     document.getElementById("ajaxCall").addEventListener('click', () => {
@@ -104,32 +109,81 @@
     });
 
 
-    function addLike(id) {
+    // POST
+    document.getElementById("ajaxCall2").addEventListener('click', () => {
+        /* textBox에 작성된 name 데이터를 가져옴 */
+        var inputName = document.getElementById("inputName2").value;
+        /* 입력된 데이터 Json 형식으로 변경 */
+        var reqJson = new Object();
+        reqJson.name = inputName;
+        /* 통신에 사용 될 XMLHttpRequest 객체 정의 */
+        httpRequest = new XMLHttpRequest();
+        /* httpRequest의 readyState가 변화했을때 함수 실행 */
+        httpRequest.onreadystatechange = () => {
+            /* readyState가 Done이고 응답 값이 200일 때, 받아온 response로 name과 age를 그려줌 */
+            if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                if (httpRequest.status === 200) {
+                    var result = httpRequest.response;
+                    document.getElementById("name2").innerText = result.name;
+                    document.getElementById("age2").innerText = result.age;
+                } else {
+                    alert('request에 뭔가 문제가 있어요.');
+                }
+            }
+        };
+        /* Post 방식으로 요청 */
+        httpRequest.open('POST', '/postAgeByName', true);
+        /* Response Type을 Json으로 사전 정의 */
+        httpRequest.responseType = "json";
+        /* 요청 Header에 컨텐츠 타입은 Json으로 사전 정의 */
+        httpRequest.setRequestHeader('Content-Type', 'application/json');
+        /* 정의된 서버에 Json 형식의 요청 Data를 포함하여 요청을 전송 */
+        httpRequest.send(JSON.stringify(reqJson));
 
-        const img1 = document.querySelector("#likeImg");
-        document.getElementById("likeImg").src = "/img/like_full.png";
+    });
 
-        var form = document.createElement("form");
-        form.setAttribute("method", "post");
-        form.setAttribute("action", "/items/" + id + "/like");
-        document.body.appendChild(form);
-        form.submit();
-    }
 
-    function deleteLike(id) {
+    function determineLike(id) {
 
-        const img1 = document.querySelector("#likeImg");
-        document.getElementById("likeImg").src = "/img/like_empty.png";
+        /* textBox에 작성된 name 데이터를 가져옴 */
+        var inputName = document.getElementById("likeCount").value;
+        /* 입력된 데이터 Json 형식으로 변경 */
+        var reqJson = new Object();
+        reqJson.name = inputName;
+        /* 통신에 사용 될 XMLHttpRequest 객체 정의 */
+        httpRequest = new XMLHttpRequest();
+        /* httpRequest의 readyState가 변화했을때 함수 실행 */
+        httpRequest.onreadystatechange = () => {
+            /* readyState가 Done이고 응답 값이 200일 때, 받아온 response로 name과 age를 그려줌 */
+            if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                if (httpRequest.status === 200) {
+                    var result = httpRequest.response;
 
-        var form = document.createElement("form");
-        form.setAttribute("method", "post");
-        form.setAttribute("action", "/items/" + id + "/delete_like");
-        document.body.appendChild(form);
-        form.submit();
+                    if (result.check === "liked") {
+                        document.getElementById("likeImg").src = "/img/like_full.png";
+                    }
+                    else {
+                        document.getElementById("likeImg").src = "/img/like_empty.png";
+                    }
+
+
+                    document.getElementById("likeCount").innerText = result.count;
+                } else {
+                    alert('request에 뭔가 문제가 있어요.');
+                }
+            }
+        };
+        /* Post 방식으로 요청 */
+        httpRequest.open('POST', "/items/" + id + "/likeAndHateByAjax", true);
+        /* Response Type을 Json으로 사전 정의 */
+        httpRequest.responseType = "json";
+        /* 요청 Header에 컨텐츠 타입은 Json으로 사전 정의 */
+        httpRequest.setRequestHeader('Content-Type', 'application/json');
+        /* 정의된 서버에 Json 형식의 요청 Data를 포함하여 요청을 전송 */
+        httpRequest.send(JSON.stringify(reqJson));
+
     }
 
 </script>
-
-
 
 </html>

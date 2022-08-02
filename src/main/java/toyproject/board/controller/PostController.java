@@ -99,9 +99,15 @@ public class PostController {
         model.addAttribute("post", postService.findOne(postId));
 
         List<User> users = userService.findByName((String)session.getAttribute("loginedUserName"));
-        User user = users.get(0);
 
-        Long userId = user.getId();
+        // 리팩토링 해야 함.
+        Long userId = 123123L;
+        if (users.size()!=0)
+        {
+            User user = users.get(0);
+            userId = user.getId();
+        }
+
 
         boolean checkLiked = userService.checkLiked(userId, postId);
 
