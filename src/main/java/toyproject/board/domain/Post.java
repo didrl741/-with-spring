@@ -25,7 +25,7 @@ public class Post {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<UserLikePost> userLikePosts = new ArrayList<UserLikePost>();
 
     //== 연관관계 편의 메서드 ==//

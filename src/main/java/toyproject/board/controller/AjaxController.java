@@ -26,7 +26,6 @@ public class AjaxController {
     private final UserService userService;
     private final UserLikePostService userLikePostService;
 
-
     @GetMapping("/getAgeByName")
     /* inputName 파라미터를 받아, 미리 저장된 ageMap에서 해당 이름에 맵핑된 나이를 리턴해주는 메소드 */
     public Map<String,Object> getAgeByName(@RequestParam String inputName ) {
@@ -54,30 +53,6 @@ public class AjaxController {
 
         return returnMap;
     }
-
-    // 좋아요 눌렀을 때
-    @PostMapping("/items/{postId}/likeByAjax")
-    /* inputMap 파라미터를 받아, 미리 저장된 ageMap에서 해당 이름에 맵핑된 나이를 리턴해주는 메소드 */
-    public Map<String,Object> postAgeByName2(@PathVariable("postId") Long postId, HttpSession session) {
-
-        Post post = postService.findOne(postId);
-
-        UserLikePost userLikePost = new UserLikePost();
-        userLikePost.setPost( post );
-
-        String logInedUserName = (String)session.getAttribute("loginedUserName");
-        userLikePost.setUser(userService.findByName(logInedUserName).get(0));
-
-        userLikePostService.join(userLikePost);
-
-        Map<String,Object> returnMap = new HashMap<>();
-        returnMap.put("count", post.getUserLikePosts().size());
-
-
-        return returnMap;
-    }
-
-
 
     // 좋아요와 취소 둘다 구현눌렀을 때
     @PostMapping("/items/{postId}/likeAndHateByAjax")
