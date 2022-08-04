@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 import toyproject.board.domain.Files;
+import toyproject.board.service.FilesService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -19,6 +20,8 @@ import java.io.File;
 @RequiredArgsConstructor
 @Slf4j
 public class ImageController {
+
+    private final FilesService filesService;
 
     @GetMapping("/images/new")
     public String createImage(Model model) {
@@ -37,8 +40,7 @@ public class ImageController {
         String sourceFileNameExtension = FilenameUtils.getExtension(sourceFileName).toLowerCase();
         File destinationFile;
         String destinationFileName;
-        String fileUrl = "D:/mung-1/src/main/resources/static/images/";
-        // mung-1은 자기 프로젝트이름으로 체인지!!
+        String fileUrl = "C:\\Users\\didrl\\OneDrive - 홍익대학교\\바탕 화면\\board\\src\\main\\resources\\static\\img\\";
 
         do {
             destinationFileName = RandomStringUtils.randomAlphanumeric(32) + "." + sourceFileNameExtension;
@@ -51,8 +53,14 @@ public class ImageController {
         file.setFilename(destinationFileName);
         file.setFileOriName(sourceFileName);
         file.setFileurl(fileUrl);
-        filesService.save(file);
+        filesService.join(file);
 
-        return "redirect:/mung/insert";
+        return "redirect:/";
+    }
+
+    @GetMapping("/images")
+    public String showIamges(Model model) {
+
+        return "imageFile/showImage";
     }
 }

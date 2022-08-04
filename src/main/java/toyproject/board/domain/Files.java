@@ -14,9 +14,9 @@ import javax.persistence.Id;
 public class Files {
     @Id
     @GeneratedValue()
-    int fno;
+    private Long id;
 
-    String filename;
-    String fileOriName;
-    String fileurl;
+    private String filename;
+    private String fileOriName;
+    private String fileurl;
 }

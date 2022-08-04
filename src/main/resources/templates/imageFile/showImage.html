@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/myheader :: header" />
+<body>
+<div class="container">
+    <div th:replace="fragments/mybodyHeader :: bodyHeader" />
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>글 번호</th>
+                <th>작성자</th>
+                <th>제목</th>
+                <th>비동기</th>
+                <th>좋아요</th>
+                <th>작성날짜</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="post : ${posts}">
+                <td th:text="${post.id}"></td>
+                <td th:text="${post.getUser().getUserName()}"></td>
+                <td>
+                    <a th:href="${'/items/' + post.id}" th:text="${post.title}"></a>
+                </td>
+                <td>
+                    <a th:href="${'/items/ajax/' + post.id}" th:text="${post.title}"></a>
+                </td>
+                <td th:text="${post.userLikePosts.size()}" ></td>
+                <td th:text="${post.getPostDate()}" ></td>
+                <td>
+                    <a th:if="${post.getUser().getUserName() == session.loginedUserName}" href="#"
+                       th:href="'javascript:cancel('+${post.id}+')'"
+                       class="btn btn-danger">삭제하기</a>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div> <!-- /container -->
+</body>
+
+<script>
+    function cancel(id) {
+        var form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "/items/" + id + "/cancel");
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+
+</html>
