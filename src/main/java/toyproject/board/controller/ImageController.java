@@ -61,6 +61,7 @@ public class ImageController {
     @GetMapping("/images")
     public String showIamges(Model model) {
 
+        model.addAttribute("files", filesService.findAll());
         return "imageFile/showImage";
     }
 }

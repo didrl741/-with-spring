@@ -8,30 +8,23 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>글 번호</th>
-                <th>작성자</th>
-                <th>제목</th>
-                <th>비동기</th>
-                <th>좋아요</th>
-                <th>작성날짜</th>
+                <th>이미지 번호</th>
+                <th>이름</th>
+                <th>이미지</th>
                 <th></th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="post : ${posts}">
-                <td th:text="${post.id}"></td>
-                <td th:text="${post.getUser().getUserName()}"></td>
+            <tr th:each="file : ${files}">
+                <td th:text="${file.id}"></td>
+                <td th:text="${file.fileOriName}"></td>
                 <td>
-                    <a th:href="${'/items/' + post.id}" th:text="${post.title}"></a>
+                    <img th:src="${'/img/'+ file.filename}" style="width:300px;height:auto;">
+<!--                    <img th:src=" '/img/' + ${file.filename}" style="width:300px;height:auto;">-->
                 </td>
+
                 <td>
-                    <a th:href="${'/items/ajax/' + post.id}" th:text="${post.title}"></a>
-                </td>
-                <td th:text="${post.userLikePosts.size()}" ></td>
-                <td th:text="${post.getPostDate()}" ></td>
-                <td>
-                    <a th:if="${post.getUser().getUserName() == session.loginedUserName}" href="#"
-                       th:href="'javascript:cancel('+${post.id}+')'"
+                    <a th:href="'javascript:cancel('+${file.id}+')'"
                        class="btn btn-danger">삭제하기</a>
                 </td>
 

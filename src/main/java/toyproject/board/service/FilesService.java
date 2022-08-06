@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import toyproject.board.domain.Files;
 import toyproject.board.repository.FilesRepository;
 
+import java.util.List;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -21,5 +23,9 @@ public class FilesService {
 
     public Files findOne(Long filesId) {
         return filesRepository.findOne(filesId);
+    }
+
+    public List<Files> findAll() {
+        return filesRepository.findAll();
     }
 }
